@@ -1,0 +1,48 @@
+{
+  // Name of the DevContainer 
+  "name": "ESP32 Micro-ROS Development",
+
+  // Base image for the DevContainer
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  // Features to be included in the container 
+  "features": {
+    // The docker-in-docker feature is included to enable Docker-in-Docker functionality,
+    // which might be necessary if your build process uses Docker.
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
+  // VS Code customizations, including extensions and settings
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // Extension for C/C++ development
+        "ms-vscode.cpptools",
+        // Extension for ESP-IDF (Espressif IoT Development Framework)
+        "espressif.esp-idf-extension",
+        // Extension for Micro-ROS development
+        "micro-ros.micro-ros-extension"
+      ],
+       // Set the default shell to Bash in the integrated terminal
+       "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
+  },
+  // Bind mount Docker socket to enable Docker-in-Docker functionality
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  // Command to run after creating the container, used to install additional tools
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y python3-pip git && pip3 install esptool",
+  
+  // Forward select ports from the container to the host
+  // Port 8080 is commonly used for web servers, such as development servers or API endpoints.
+  // Port 9090 is often used for development tools or dashboards, such as monitoring or debugging interfaces.
+  "forwardPorts": [8080, 9090],
+
+  // Default user for the container
+  "remoteUser": "vscode",
+
+  // Name the Docker container for easier management and identification
+  "runArgs": ["--name", "esp32-microros-devcontainer"]
+}

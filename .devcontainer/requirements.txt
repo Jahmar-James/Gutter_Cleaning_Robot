@@ -1,0 +1,10 @@
+esptool>=3.0
+idf-component-manager~=1.5
+cryptography
+pyserial
+catkin_pkg
+lark-parser
+empy
+colcon-common-extensions
+vcstool
+rosdep

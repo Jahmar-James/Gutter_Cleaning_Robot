@@ -1,0 +1,21 @@
+services:
+  gcrp-micro-ros-esp32-devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Mount host directories to the container and create named volumes for persistent storage,
+    # sharing code, and maintaining consistency across environments
+    volumes:
+      - uros_ws_volume:/uros_ws             # Micro-ROS workspace - NV
+      - ../software/ros2_src:/uros_ws/src   # Micro-ROS source code - Monut
+      - idf_ws_volume:/esp-idf-projects     # ESP-IDF project workspace - NV
+      - esp_idf_volume:/opt/esp-idf         # ESP-IDF 'toolchain' - NV
+    container_name: gcrp-uros-esp32-devcontainer_base
+    stdin_open: true
+    tty: true
+    privileged: true # extended privileges to access devices on the host machine, such as COM ports
+
+volumes:
+  uros_ws_volume:
+  idf_ws_volume:
+  esp_idf_volume:

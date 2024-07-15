@@ -1,9 +1,12 @@
 {
   // Name of the DevContainer 
-  "name": "ESP32 Micro-ROS Development",
+  "name": "Gutter Cleaning Robot Dev Container",
 
   // Base image for the DevContainer
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "gcrp-micro-ros-esp32-devcontainer",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
   // Features to be included in the container 
   "features": {
     // The docker-in-docker feature is included to enable Docker-in-Docker functionality,
@@ -15,12 +18,20 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        // Extension for C/C++ development
+        // Extension for Python development
+        "ms-python.python",
+        // Extension for Embedded C/C++ development
         "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "ms-vscode.vscode-embedded-tools",
+        "ms-vscode.vscode-serial-monitor",
         // Extension for ESP-IDF (Espressif IoT Development Framework)
         "espressif.esp-idf-extension",
         // Extension for Micro-ROS development
-        "micro-ros.micro-ros-extension"
+        "micro-ros.micro-ros-extension",
+        "smilerobotics.urdf",
+        // Extension for PlatformIO development
+        "platformio.platformio-ide"
       ],
        // Set the default shell to Bash in the integrated terminal
        "settings": {
@@ -30,19 +41,15 @@
   },
   // Bind mount Docker socket to enable Docker-in-Docker functionality
   "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
   ],
-  // Command to run after creating the container, used to install additional tools
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y python3-pip git && pip3 install esptool",
   
   // Forward select ports from the container to the host
   // Port 8080 is commonly used for web servers, such as development servers or API endpoints.
   // Port 9090 is often used for development tools or dashboards, such as monitoring or debugging interfaces.
-  "forwardPorts": [8080, 9090],
+  "forwardPorts": [8080, 9090, 4000],
 
   // Default user for the container
-  "remoteUser": "vscode",
-
-  // Name the Docker container for easier management and identification
-  "runArgs": ["--name", "esp32-microros-devcontainer"]
+  "remoteUser": "root"
 }

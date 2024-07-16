@@ -2,3 +2,17 @@
 /tools/dist/*
 /tools/tools/*
 
+# Python cache files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Temporary files
+*.swp
+*.swo
+*.tmp
+*~
+
+# Windows specific files
+Thumbs.db
